@@ -1,6 +1,7 @@
 import os
 import csv
 import boto3
+from datetime import datetime
 
 dynamodb = boto3.resource('dynamodb', 
         region_name='us-east-2',
@@ -21,14 +22,11 @@ def write_to_dynamo(rows):
         for row in rows:
             batch.put_item(
                 Item={
-                        "id": row['id'],
-                        "name": row['name'],
-                        "createdAt": row['createdAt'],
-                        "updatedAt": row['updatedAt'],
-                        "_lastChangedAt": row['_lastChangedAt'],
-                        "_version": row['_version'],
-                        "user_specific": row['user_specific'],
-                        "description": row['description'] ,
+                    "id": "Admin_" + row["name"] + "_" + str(datetime.now()),
+                    "name": row["name"],
+                    "created_by": row["created_by"],
+                    "description": "Milo Playlist",
+                    "user_specific": row["user_specific"]
                 }
             )
 main()
